@@ -36,7 +36,6 @@ resource "aws_launch_configuration" "workers" {
   enable_monitoring           = "${lookup(var.worker_groups[count.index], "enable_monitoring", lookup(local.workers_group_defaults, "enable_monitoring"))}"
   spot_price                  = "${lookup(var.worker_groups[count.index], "spot_price", lookup(local.workers_group_defaults, "spot_price"))}"
   count                       = "${var.worker_group_count}"
-  enabled_metrics             = ["${compact(split(",", coalesce(lookup(var.worker_groups[count.index], "enabled_metrics", ""), local.workers_group_defaults["enabled_metrics"])))}"]
 
   lifecycle {
     create_before_destroy = true
