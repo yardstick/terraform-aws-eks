@@ -7,7 +7,7 @@ resource "aws_autoscaling_group" "workers" {
   vpc_zone_identifier   = ["${split(",", coalesce(lookup(var.worker_groups[count.index], "subnets", ""), lookup(local.workers_group_defaults, "subnets")))}"]
   count                 = "${var.worker_group_count}"
   protect_from_scale_in = "${lookup(var.worker_groups[count.index], "protect_from_scale_in", lookup(local.workers_group_defaults, "protect_from_scale_in"))}"
-  enabled_metrics       = ["${compact(split(",", coalesce(lookup(var.worker_groups[count.index], "enabled_metrics", ""), local.workers_group_defaults["enabled_metrics"])))}"]
+  enabled_metrics       = ["GroupStandbyInstances", "GroupTotalInstances", "GroupPendingInstances", "GroupTerminatingInstances", "GroupDesiredCapacity", "GroupInServiceInstances", "GroupMinSize", "GroupMaxSize"]
 
   tags = ["${concat(
     list(
